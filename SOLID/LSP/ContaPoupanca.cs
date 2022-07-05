@@ -6,7 +6,6 @@ namespace MXTargetBank.SOLID.LSP
     {
       if (Saldo > valor)
         Saldo -= valor;
-      
     }
   }
 }
