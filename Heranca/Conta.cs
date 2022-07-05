@@ -1,4 +1,4 @@
-public sealed class Conta
+internal class Conta
 {
   public int Numero { get; set; }
   public string? Titular { get; set; }
