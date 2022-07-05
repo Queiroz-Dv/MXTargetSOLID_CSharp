@@ -1,4 +1,4 @@
-class Conta
+public sealed class Conta
 {
   public int Numero { get; set; }
   public string? Titular { get; set; }
