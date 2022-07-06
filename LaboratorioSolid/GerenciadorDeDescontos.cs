@@ -15,21 +15,22 @@ namespace MXTargetBank.LaboratorioSolid
       switch (statusContaCliente)
       {
         case EStatusContaCliente.NaoRegistrado:
-          precoDepoisDoDesconto = preco;
+          precoDepoisDoDesconto = new ClienteNaoRegistrado().AplicarDescontoStatusConta(preco);
+          precoDepoisDoDesconto = descontoFidelidade.AplicarDescontoFidelidade(precoDepoisDoDesconto, tempoDeContaEmAnos);
           break;
 
         case EStatusContaCliente.ClienteComum:
-          precoDepoisDoDesconto = preco - (Constantes.DESCONTO_CLIENTE_COMUM * preco);
+          precoDepoisDoDesconto = new ClienteComum().AplicarDescontoStatusConta(preco);
           precoDepoisDoDesconto = descontoFidelidade.AplicarDescontoFidelidade(precoDepoisDoDesconto, tempoDeContaEmAnos);
           break;
 
         case EStatusContaCliente.ClienteEspecial:
-          precoDepoisDoDesconto = preco - (Constantes.DESCONTO_CLIENTE_ESPECIAL * preco);
+          precoDepoisDoDesconto = new ClienteEspecial().AplicarDescontoStatusConta(preco);
           precoDepoisDoDesconto = descontoFidelidade.AplicarDescontoFidelidade(precoDepoisDoDesconto, tempoDeContaEmAnos);
           break;
 
         case EStatusContaCliente.ClienteVIP:
-          precoDepoisDoDesconto = preco - (Constantes.DESCONTO_CLIENTE_VIP * preco);
+          precoDepoisDoDesconto = new ClienteVIP().AplicarDescontoStatusConta(preco);
           precoDepoisDoDesconto = descontoFidelidade.AplicarDescontoFidelidade(precoDepoisDoDesconto, tempoDeContaEmAnos);
           break;
 
