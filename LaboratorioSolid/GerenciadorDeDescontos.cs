@@ -1,15 +1,16 @@
 namespace MXTargetBank.LaboratorioSolid
 {
-  //Código com nomenclatura errada
   public class GerenciadorDeDescontos
   {
-    public static decimal AplicarDesconto(decimal preco, EStatusContaCliente statusContaCliente, int tempoDeContaEmAnos)
+    private readonly ICalculaDescontoFidelidade descontoFidelidade;
+
+    public GerenciadorDeDescontos(ICalculaDescontoFidelidade _descontoFidelidade)
     {
-      decimal descontoPorFidelidade = (tempoDeContaEmAnos > Constantes.DESCONTO_MAXIMO_POR_FIDELIDADE) ?
-        (decimal)Constantes.DESCONTO_MAXIMO_POR_FIDELIDADE / 100 :
-        (decimal)tempoDeContaEmAnos / 100;
+      descontoFidelidade = _descontoFidelidade;
+    }
 
-
+    public decimal AplicarDesconto(decimal preco, EStatusContaCliente statusContaCliente, int tempoDeContaEmAnos)
+    {
       decimal precoDepoisDoDesconto;
       switch (statusContaCliente)
       {
@@ -19,17 +20,17 @@ namespace MXTargetBank.LaboratorioSolid
 
         case EStatusContaCliente.ClienteComum:
           precoDepoisDoDesconto = preco - (Constantes.DESCONTO_CLIENTE_COMUM * preco);
-          precoDepoisDoDesconto -= descontoPorFidelidade * precoDepoisDoDesconto;
+          precoDepoisDoDesconto = descontoFidelidade.AplicarDescontoFidelidade(precoDepoisDoDesconto, tempoDeContaEmAnos);
           break;
 
         case EStatusContaCliente.ClienteEspecial:
           precoDepoisDoDesconto = preco - (Constantes.DESCONTO_CLIENTE_ESPECIAL * preco);
-          precoDepoisDoDesconto -= descontoPorFidelidade * precoDepoisDoDesconto;
+          precoDepoisDoDesconto = descontoFidelidade.AplicarDescontoFidelidade(precoDepoisDoDesconto, tempoDeContaEmAnos);
           break;
 
         case EStatusContaCliente.ClienteVIP:
           precoDepoisDoDesconto = preco - (Constantes.DESCONTO_CLIENTE_VIP * preco);
-          precoDepoisDoDesconto -= descontoPorFidelidade * precoDepoisDoDesconto;
+          precoDepoisDoDesconto = descontoFidelidade.AplicarDescontoFidelidade(precoDepoisDoDesconto, tempoDeContaEmAnos);
           break;
 
         default:
